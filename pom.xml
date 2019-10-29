@@ -18,12 +18,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
 			<!-- REQUIRED EXCLUSION FOR WILDFLY -->
-			<exclusions>
+			<!--<exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
-            </exclusions>
+            </exclusions>-->
 			<!-- END -->
         </dependency>
         <dependency>
@@ -38,11 +38,11 @@
         </dependency>
 		
 		<!-- MAKE IT WORK WITH WILDFLY -->
-		<dependency>
+		<!--<dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <properties>
@@ -58,6 +58,6 @@
         </plugins>
     </build>
 	
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 </project>

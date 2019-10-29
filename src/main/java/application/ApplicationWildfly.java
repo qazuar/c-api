@@ -15,9 +15,9 @@ public class ApplicationWildfly extends SpringBootServletInitializer {
         return application.sources(ApplicationWildfly.class);
     }
 
-    public static void main(String[] args) {
+    public static void mainE(String[] args) {
         SpringApplication application = new SpringApplication(Application.class);
-        application.setDefaultProperties(Collections.singletonMap("server.port", "8083"));
+        //application.setDefaultProperties(Collections.singletonMap("server.port", "8083"));
 
         application.run(args);
     }
