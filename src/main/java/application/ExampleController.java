@@ -12,7 +12,7 @@ public class ExampleController {
 
     private final AtomicLong counter = new AtomicLong();
 
-    @RequestMapping("/test")
+    @RequestMapping("/example")
     public ExampleClass greeting(@RequestParam(value="name", defaultValue="World") String name) {
         return new ExampleClass(counter.incrementAndGet(), String.format("Hello %s!", name));
     }
