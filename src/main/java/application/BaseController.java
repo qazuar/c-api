@@ -1,9 +1,11 @@
 package application;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import rest.status.Status;
+import rest.test.PayloadTest;
 import rest.test.Test;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,5 +26,12 @@ public class BaseController {
     @RequestMapping("/test")
     public Test test(@RequestParam(value="input", defaultValue="") String input) {
         return new Test(input);
+    }
+
+    // produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    @RequestMapping(value = "/payloadtest", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+    public ResponseEntity<?> test2(@RequestBody PayloadTest bean) {
+        System.out.println(bean.getContent());
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 }
