@@ -3,13 +3,14 @@ package application;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import rest.example.ExampleClass;
 import rest.status.Status;
 import rest.test.Test;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
+@XmlRootElement
 public class BaseController {
 
     private final long startup = System.currentTimeMillis();
