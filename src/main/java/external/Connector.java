@@ -93,6 +93,8 @@ public class Connector {
         URL url = new URL(request.getServer() + path);
         HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
 
+        System.out.println(url.toString());
+
         if (username != null && password != null) {
             String login = username + ":" + password;
             String auth = "Basic " + new String(Base64.getEncoder().encode(login.getBytes()));

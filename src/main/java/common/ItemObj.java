@@ -1,7 +1,7 @@
 package common;
 
-import main.java.utils.PatternUtil;
-import main.java.utils.patterns.PatternUtilFinder;
+import utils.PatternUtil;
+import utils.patterns.PatternUtilFinder;
 
 public class ItemObj {
 
