@@ -1,14 +1,12 @@
 package utils;
 
+import enums.RareStickerEnum;
+import enums.ScanFilter;
 import external.Receiver;
 import steam.ItemObj;
-import steam.MarketItemObj;
-import steam.MarketObj;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MarketItemScanner {
 
@@ -26,18 +24,26 @@ public class MarketItemScanner {
      * @param count
      * @return
      */
-    public List<ItemObj> scan(String link, int count) {
+    public List<ItemObj> scan(String link, int count, String filter) {
         List<ItemObj> items = receiver.getItems(link, count);
 
         List<ItemObj> filtered = new ArrayList<>();
 
-        for (ItemObj i : items) {
-            if (hasRareStickers(i)) {
-                filtered.add(i);
-            }
+        ScanFilter scanFilter = ScanFilter.getFilter(filter);
 
-            if (hasRarePattern(i)) {
-                filtered.add(i);
+        if (scanFilter == null) {
+            return items;
+        } else if (scanFilter.equals(ScanFilter.STICKERS)) {
+            for (ItemObj i : items) {
+                if (hasRareStickers(i)) {
+                    filtered.add(i);
+                }
+            }
+        } else if (scanFilter.equals(ScanFilter.PATTERN)) {
+            for (ItemObj i : items) {
+                if (hasRarePattern(i)) {
+                    filtered.add(i);
+                }
             }
         }
 
@@ -49,16 +55,12 @@ public class MarketItemScanner {
             if (s != null) {
                 s = s.toLowerCase();
 
-                if (s.contains("katowice 2014")) {
-                    return true;
-                }
-
-                if (s.contains("crown")) {
-                    return true;
-                }
-
-                if (s.contains("katowice 2015")) {
-                    return true;
+                if (s.contains("holo") || s.contains("foil")) {
+                    for (RareStickerEnum r : RareStickerEnum.values()) {
+                        if (s.contains(r.getName())) {
+                            return true;
+                        }
+                    }
                 }
             }
         }

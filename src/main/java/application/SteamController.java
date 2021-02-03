@@ -15,11 +15,6 @@ public class SteamController {
 
     private final SteamFacade steamFacade = new SteamFacade();
 
-    @RequestMapping(PATH + "marketpage")
-    public MarketObj getMarketItems(@RequestParam(value="link") String link, @RequestParam(value="count", defaultValue="100") Integer count) {
-        return steamFacade.getMarketObj(link, count);
-    }
-
     @RequestMapping(PATH + "inspect")
     public ItemObj getItem(@RequestParam(value="link") String link) {
         return steamFacade.getItemObj(link);
@@ -27,7 +22,7 @@ public class SteamController {
 
     @RequestMapping(PATH + "scan")
     public MarketItemList scanMarketItems(@RequestParam(value="link") String link, @RequestParam(value="filter", defaultValue="default") String filter) {
-        return steamFacade.getMarketScanObj(link, filter);
+        return steamFacade.getMarketItemList(link, filter);
     }
 
 }
