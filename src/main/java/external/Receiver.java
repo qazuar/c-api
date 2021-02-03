@@ -2,10 +2,12 @@ package external;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-import common.ItemObj;
-import common.MarketItemObj;
-import common.MarketObj;
 import enums.ApiEnum;
+import steam.ItemObj;
+import steam.MarketItemObj;
+import steam.MarketObj;
+import steam.Sticker;
+import utils.Misc;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,9 +18,40 @@ import java.util.Map;
 public class Receiver {
 
     private Map<String, ItemObj> cache;
+    private Connector connector;
 
     public Receiver() {
         this.cache = new HashMap<>();
+        this.connector = new Connector(null,null);
+    }
+
+    public List<ItemObj> getItems(String marketPageLink, int count) {
+        String queryStartCount = "?query=&start=0&count=" + count;
+
+        List<ItemObj> items = new ArrayList<>();
+
+        Request request = Request.newRequest();
+        request.setServer(ApiEnum.STEAM_COMMUNITY_ADDRESS.getPath());
+
+        connector.get(request, marketPageLink + queryStartCount);
+
+        Map<String, List<String>> map = Misc.steamHtmlToMap(request.getResponseXml());
+
+        int index = 0;
+        int listId = 1;
+
+        for (String link : map.get("links")) {
+            ItemObj item = getItem(ApiEnum.STEAM_RUN_CSGO_PREFIX.getPath() + link.replace("%assetid%", map.get("assetids").get(index)));
+            item.setPrice(map.get("prices").get(index));
+            item.setListId(String.valueOf(listId));
+
+            items.add(item);
+
+            index++;
+            listId++;
+        }
+
+        return items;
     }
 
     public ItemObj getItem(String inspectLink) {
@@ -69,7 +102,6 @@ public class Receiver {
         item.setPaintSeed(String.format("%s", map.get("paintseed")));
         item.setDefinitionIndex(String.format("%s", map.get("defindex")));
         item.setPaintIndex(String.format("%s", map.get("paintindex")));
-        item.setStickers(null); // Not sure about the actual value
         item.setFloatValue(String.format("%s", map.get("floatvalue")));
         item.setImageUrl(map.get("imageurl"));
         item.setMinFloat(String.format("%s", map.get("min")));
@@ -88,6 +120,18 @@ public class Receiver {
         // A safety fix for really low float values
         item.setFloatValue(BigDecimal.valueOf(Double.valueOf(item.getFloatValue())).toString());
 
+        // Stickers is of type ArrayList and will cause an exception when unless formatted into a string
+        Sticker[] stickers = Misc.mapString2StickerArray(String.format("%s", map.get("stickers")));
+        String[] stickerArray = new String[stickers.length];
+        int index = 0;
+
+        for (Sticker sticker : stickers) {
+            stickerArray[index] = sticker.getName();
+            index ++;
+        }
+
+        item.setStickers(stickerArray);
+
         return item;
     }
 
@@ -95,45 +139,13 @@ public class Receiver {
         String queryStartCount = "?query=&start=0&count=" + count;
 
         MarketObj obj = new MarketObj();
-        List<String> links = new ArrayList<>();
-        List<String> assetIds = new ArrayList<>();
-        List<String> prices = new ArrayList<>();
 
-        Connector connector = new Connector(null, null);
         Request request = Request.newRequest();
         request.setServer(ApiEnum.STEAM_COMMUNITY_ADDRESS.getPath());
 
         connector.get(request, path + queryStartCount);
 
-        String response = request.getResponseXml();
-
-        String x, y, z;
-
-        for (String s : response.split(" ")) {
-            if (s.contains("+csgo") && !s.contains("%listing")) {
-                x = s.split("\\+csgo_econ_action_preview")[1].split("\"")[0].trim();
-
-                if (!links.contains(x)) {
-                    links.add(x);
-                }
-            }
-
-            if (s.contains("\"asset\":{\"currency\":0,\"appid\":730,\"contextid\":\"2\",\"id\":")) {
-                y = s.split("\"asset\"")[1].split("\"id\":")[1].split(",")[0].replace("\"", "");
-
-                if (!assetIds.contains(y)) {
-                    assetIds.add(y);
-                }
-            }
-        }
-
-        for (String s : response.split("span")) {
-            if (s.contains("market_listing_price_with_fee")) {
-                z = s.split("market_listing_price_with_fee\">")[1].replace("</", "").trim();
-
-                prices.add(z);
-            }
-        }
+        Map<String, List<String>> map = Misc.steamHtmlToMap(request.getResponseXml());
 
         for (String s : request.getStrings()) {
             if (s.contains("var line1=[[")) { // Line is technically var line1=[["Nov..
@@ -145,11 +157,14 @@ public class Receiver {
         }
 
         int index = 0;
+        int listId = 1;
 
-        for (String link : links) {
-            MarketItemObj item = new MarketItemObj(ApiEnum.STEAM_RUN_CSGO_PREFIX.getPath() + link.replace("%assetid%", assetIds.get(index)), prices.get(index));
+        for (String link : map.get("links")) {
+            MarketItemObj item = new MarketItemObj(listId, ApiEnum.STEAM_RUN_CSGO_PREFIX.getPath() + link.replace("%assetid%", map.get("assetids").get(index)), map.get("prices").get(index));
             obj.getItems().add(item);
+
             index++;
+            listId++;
         }
 
         return obj;

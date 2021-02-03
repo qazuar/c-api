@@ -1,4 +1,4 @@
-package common;
+package steam;
 
 import utils.PatternUtil;
 import utils.patterns.PatternUtilFinder;
@@ -27,6 +27,7 @@ public class ItemObj {
      weapon_type 	string 	Weapon type name
      */
 
+    private String listId;
     private String itemId;
     private String definitionIndex;
     private int paintIndex;
@@ -53,6 +54,16 @@ public class ItemObj {
 
     private String fullItemNameClean;
     private String exterior;
+
+    private String price;
+
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
+    }
 
     public String getItemId() {
         return itemId;
@@ -262,5 +273,13 @@ public class ItemObj {
 
     public void setExterior(String exterior) {
         this.exterior = exterior;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }
