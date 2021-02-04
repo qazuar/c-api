@@ -22,7 +22,7 @@ public class SteamFacade {
 
     public MarketItemList getMarketItemList(String link, String filter) {
         link = link.replaceAll(ApiEnum.STEAM_COMMUNITY_ADDRESS.getPath(), "").replaceAll(" ", "%20").replaceAll("™", "%E2%84%A2");
-
+        System.out.println("YOLO");
         List<ItemObj> items = scanner.scan(link, 1000, filter);
 
         return RestMapper.mapItemObjList2MarketItemList(items);
