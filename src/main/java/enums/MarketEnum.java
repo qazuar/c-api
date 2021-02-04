@@ -2,13 +2,6 @@ package enums;
 
 public enum MarketEnum {
 
-    BAYONET_SLAUGHTER("market/listings/730/%E2%98%85%20Bayonet%20%7C%20Slaughter%20%28{}%29", true),
-    KARAMBIT_DOPPLER("market/listings/730/%E2%98%85%20Karambit%20%7C%20Doppler%20%28{}%29", true),
-    KARAMBIT_LORE("market/listings/730/%E2%98%85%20Karambit%20%7C%20Lore%20%28{}%29", true),
-    KARAMBIT_MARBLE_FADE("market/listings/730/%E2%98%85%20Karambit%20%7C%20Marble%20Fade%20%28{}%29", true),
-    M9_LORE("market/listings/730/%E2%98%85%20M9%20Bayonet%20%7C%20Lore%20%28{}%29", true),
-    TALON_KNIFE_FADE("market/listings/730/%E2%98%85%20Talon%20Knife%20%7C%20Fade%20%28{}%29", true),
-    TALON_KNIFE_DOPPLER("market/listings/730/%E2%98%85%20Talon%20Knife%20%7C%20Doppler%20%28{}%29", true),
     AK47_FIRE_SERPENT("market/listings/730/AK-47%20%7C%20Fire%20Serpent%20%28{}%29", true),
     AK47_REDLINE("market/listings/730/AK-47%20%7C%20Redline%20%28{}%29", true),
     AK47_WILD_LOTUS("market/listings/730/AK-47%20%7C%20Wild%20Lotus%20%28{}%29", false),
@@ -30,12 +23,6 @@ public enum MarketEnum {
     NEGEV_MJÖLNIR("market/listings/730/Negev%20%7C%20Mjölnir%20%28{}%29", false),
     P250_ASIIMOV("market/listings/730/P250%20%7C%20Asiimov%20%28{}%29", true),
     SG553_INTEGRALE("market/listings/730/SG%20553%20%7C%20Integrale%20%28{}%29", false),
-    SPECIALIST_GLOVES_FADE("market/listings/730/%E2%98%85%20Specialist%20Gloves%20%7C%20Fade%20%28{}%29", false),
-    SPECIALIST_GLOVES_CRIMSON_KIMONO("market/listings/730/%E2%98%85%20Specialist%20Gloves%20%7C%20Crimson%20Kimono%20%28{}%29", false),
-    SPORT_GLOVES_PANDORA("market/listings/730/%E2%98%85%20Sport%20Gloves%20%7C%20Pandora%27s%20Box%20%28{}%29", false),
-    SPORT_GLOVES_OMEGA("market/listings/730/%E2%98%85%20Sport%20Gloves%20%7C%20Omega%20%28{}%29", false),
-    SPORT_GLOVES_SUPERCONDUCTOR("market/listings/730/%E2%98%85%20Sport%20Gloves%20%7C%20Superconductor%20%28{}%29", false),
-    SPORT_GLOVES_VICE("market/listings/730/%E2%98%85%20Sport%20Gloves%20%7C%20Vice%20%28{}%29", false),
     USP_ORION("market/listings/730/USP-S%20%7C%20Orion%20%28{}%29", true);
 
     private final String statTrakPrefix = "StatTrak%E2%84%A2%20";

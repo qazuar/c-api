@@ -1,5 +1,6 @@
 package utils;
 
+import enums.ApiEnum;
 import steam.Sticker;
 
 import java.util.ArrayList;
@@ -8,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Misc {
+
+    public static String encodeMarketLink(String link) {
+        return link.replaceAll(ApiEnum.STEAM_COMMUNITY_ADDRESS.getPath(), "").replaceAll(" ", "%20").replaceAll("™", "%E2%84%A2");
+    }
 
     public static String getClientOS() {
         return System.getProperty("os.name").split(" ")[0] + "/Java " + System.getProperty("java.version");

@@ -7,6 +7,7 @@ import mappers.RestMapper;
 import rest.steam.MarketItemList;
 import steam.ItemObj;
 import utils.MarketItemScanner;
+import utils.Misc;
 
 import java.util.List;
 
@@ -16,15 +17,10 @@ public class SteamFacade {
     private MarketItemScanner scanner = new MarketItemScanner(receiver);
 
     public ItemObj getItemObj(String link) {
-        link = link.replaceAll(" ", "%20");
-        return receiver.getItem(link);
+        return receiver.getItem(Misc.encodeMarketLink(link));
     }
 
     public MarketItemList getMarketItemList(String link, String filter) {
-        link = link.replaceAll(ApiEnum.STEAM_COMMUNITY_ADDRESS.getPath(), "").replaceAll(" ", "%20").replaceAll("™", "%E2%84%A2");
-        System.out.println("YOLO");
-        List<ItemObj> items = scanner.scan(link, 1000, filter);
-
-        return RestMapper.mapItemObjList2MarketItemList(items);
+        return RestMapper.mapItemObjList2MarketItemList(scanner.scan(Misc.encodeMarketLink(link), 1000, filter));
     }
 }
