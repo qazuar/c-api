@@ -1,15 +1,11 @@
 package facade;
 
-import enums.ApiEnum;
-import enums.ScanFilter;
 import external.Receiver;
 import mappers.RestMapper;
 import rest.steam.MarketItemList;
 import steam.ItemObj;
 import utils.MarketItemScanner;
 import utils.Misc;
-
-import java.util.List;
 
 public class SteamFacade {
 

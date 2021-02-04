@@ -3,7 +3,11 @@ package steam;
 import utils.PatternUtil;
 import utils.patterns.PatternUtilFinder;
 
-public class ItemObj {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ItemObj implements Serializable {
 
     // FROM CSGOFLOAT DOC
     /**
@@ -39,7 +43,7 @@ public class ItemObj {
     private int paintSeed; // Seed for the RNG that defines how to place the skin texture
     private String killEaterValue; // If the item is StatTrak, this is the amount of kills
     private String customName; // If the item has a nametag, this is the custom name
-    private String[] stickers; // Contains data on the placement of stickers
+    private List<Sticker> stickers;
     private String origin; // Origin ID of the weapon
     private String originName; // Where was it obtained
     private String floatValue;
@@ -163,12 +167,12 @@ public class ItemObj {
         this.customName = customName;
     }
 
-    public String[] getStickers() {
-        return stickers;
-    }
+    public List<Sticker> getStickers() {
+        if (stickers == null) {
+            stickers = new ArrayList<>();
+        }
 
-    public void setStickers(String[] stickers) {
-        this.stickers = stickers;
+        return stickers;
     }
 
     public String getOrigin() {

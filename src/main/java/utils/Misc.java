@@ -64,13 +64,11 @@ public class Misc {
     //   {slot=1.0, wear=0.09748642891645432, stickerId=127.0, codename=cologne2014_hellraisers_holo, material=cologne2014/hellraisers_holo, name=HellRaisers (Holo) | Cologne 2014},
     //   {slot=2.0, stickerId=1830.0, codename=atlanta2017_signature_deadfox_foil, material=atlanta2017/sig_deadfox_foil, name=DeadFox (Foil) | Atlanta 2017}
     // ]
-    public static Sticker[] mapString2StickerArray(String value) {
+    public static List<Sticker> mapString2StickerList(String value) {
         value = value.replaceAll("\\{", "").replaceAll("\\[", "").replaceAll("}]", "");
         String[] s = value.split("}, ");
 
-        Sticker[] stickers = new Sticker[s.length];
-
-        int index = 0;
+        List<Sticker> stickers = new ArrayList<>();
 
         for (String str : s) {
             Sticker sticker = new Sticker();
@@ -80,6 +78,8 @@ public class Misc {
 
                 if (kv[0].equals("slot")) {
                     sticker.setSlot(kv[1]);
+                } else if (kv[0].equals("wear")) {
+                    sticker.setWear(kv[1]);
                 } else if (kv[0].equals("stickerId")) {
                     sticker.setId(kv[1]);
                 } else if (kv[0].equals("codename")) {
@@ -91,8 +91,10 @@ public class Misc {
                 }
             }
 
-            stickers[index] = sticker;
-            index ++;
+            // Perhaps refactor to check earlier if the string has any stickers in it
+            if (sticker.getName() != null) {
+                stickers.add(sticker);
+            }
         }
 
         return stickers;

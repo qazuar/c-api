@@ -1,12 +1,26 @@
 package steam;
 
-public class Sticker {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.io.Serializable;
+
+public class Sticker implements Serializable {
 
     private String slot;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String wear;
+
+    @JsonIgnore
     private String id;
+
+    @JsonIgnore
     private String codename;
+
+    @JsonIgnore
     private String material;
+
     private String name;
 
     public String getSlot() {

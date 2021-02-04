@@ -18,7 +18,7 @@ public class RestMapper {
             mItem.setListId(item.getListId());
             mItem.setName(item.getFullItemName());
             mItem.setFloatValue(item.getFloatValue());
-            mItem.setStickers(item.getStickers());
+            mItem.setStickers(item.getStickers().isEmpty() ? null : item.getStickers());
             mItem.setPrice(item.getPrice());
 
             list.getItems().add(mItem);

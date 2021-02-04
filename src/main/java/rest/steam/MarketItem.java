@@ -1,11 +1,20 @@
 package rest.steam;
 
-public class MarketItem {
+import com.fasterxml.jackson.annotation.JsonInclude;
+import steam.Sticker;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class MarketItem implements Serializable {
 
     private String listId;
     private String name;
     private String floatValue;
-    private String[] stickers;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<Sticker> stickers;
+
     private String price;
 
     public String getListId() {
@@ -32,11 +41,11 @@ public class MarketItem {
         this.floatValue = floatValue;
     }
 
-    public String[] getStickers() {
+    public List<Sticker> getStickers() {
         return stickers;
     }
 
-    public void setStickers(String[] stickers) {
+    public void setStickers(List<Sticker> stickers) {
         this.stickers = stickers;
     }
 

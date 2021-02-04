@@ -10,10 +10,7 @@ import steam.Sticker;
 import utils.Misc;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Receiver {
 
@@ -121,16 +118,9 @@ public class Receiver {
         item.setFloatValue(BigDecimal.valueOf(Double.valueOf(item.getFloatValue())).toString());
 
         // Stickers is of type ArrayList and will cause an exception when unless formatted into a string
-        Sticker[] stickers = Misc.mapString2StickerArray(String.format("%s", map.get("stickers")));
-        String[] stickerArray = new String[stickers.length];
-        int index = 0;
+        List<Sticker> stickers = Misc.mapString2StickerList(String.format("%s", map.get("stickers")));
 
-        for (Sticker sticker : stickers) {
-            stickerArray[index] = sticker.getName();
-            index ++;
-        }
-
-        item.setStickers(stickerArray);
+        item.getStickers().addAll(stickers);
 
         return item;
     }

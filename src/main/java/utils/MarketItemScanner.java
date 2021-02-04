@@ -4,11 +4,15 @@ import enums.RareStickerEnum;
 import enums.ScanFilter;
 import external.Receiver;
 import steam.ItemObj;
+import steam.Sticker;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MarketItemScanner {
+
+    private final String HOLO = "holo";
+    private final String FOIL = "foil";
 
     private Receiver receiver;
 
@@ -16,14 +20,6 @@ public class MarketItemScanner {
         this.receiver = receiver;
     }
 
-    /**
-     * This is a POC
-     * Currently it will just look for kato 2014 stickers (hardcoded)
-     *
-     * @param link
-     * @param count
-     * @return
-     */
     public List<ItemObj> scan(String link, int count, String filter) {
         List<ItemObj> items = receiver.getItems(link, count);
 
@@ -51,19 +47,18 @@ public class MarketItemScanner {
     }
 
     private boolean hasRareStickers(ItemObj item) {
-        for (String s : item.getStickers()) {
-            if (s != null) {
-                s = s.toLowerCase();
+        for (Sticker s : item.getStickers()) {
+            String name = s.getName().toLowerCase();
 
-                if (s.contains("holo") || s.contains("foil")) {
-                    for (RareStickerEnum r : RareStickerEnum.values()) {
-                        if (s.contains(r.getName())) {
-                            return true;
-                        }
+            if (name.contains(HOLO) || name.contains(FOIL)) {
+                for (RareStickerEnum r : RareStickerEnum.values()) {
+                    if (name.contains(r.getName())) {
+                        return true;
                     }
                 }
             }
         }
+
         return false;
     }
 
