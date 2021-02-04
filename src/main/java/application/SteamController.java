@@ -20,8 +20,8 @@ public class SteamController {
     }
 
     @RequestMapping(PATH + "scan")
-    public MarketItemList scanMarketItems(@RequestParam(value="link") String link, @RequestParam(value="filter", defaultValue="default") String filter) {
-        return steamFacade.getMarketItemList(link, filter);
+    public MarketItemList scanMarketItems(@RequestParam(value="link") String link, @RequestParam(value="filter", defaultValue="default") String filter, @RequestParam(value="count", defaultValue="1000") Integer count) {
+        return steamFacade.getMarketItemList(link, filter, count);
     }
 
 }
