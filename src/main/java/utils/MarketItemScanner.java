@@ -13,6 +13,7 @@ public class MarketItemScanner {
 
     private final String HOLO = "holo";
     private final String FOIL = "foil";
+    private final String GOLD = "gold";
 
     private Receiver receiver;
 
@@ -50,7 +51,7 @@ public class MarketItemScanner {
         for (Sticker s : item.getStickers()) {
             String name = s.getName().toLowerCase();
 
-            if (name.contains(HOLO) || name.contains(FOIL)) {
+            if (name.contains(HOLO) || name.contains(FOIL) || name.contains(GOLD)) {
                 for (RareStickerEnum r : RareStickerEnum.values()) {
                     if (name.contains(r.getName())) {
                         return true;

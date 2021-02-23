@@ -11,7 +11,7 @@ import java.util.Map;
 public class Misc {
 
     public static String encodeMarketLink(String link) {
-        return link.replaceAll(ApiEnum.STEAM_COMMUNITY_ADDRESS.getPath(), "").replaceAll(" ", "%20").replaceAll("™", "%E2%84%A2");
+        return link.replaceAll(ApiEnum.STEAM_COMMUNITY_ADDRESS.getPath(), "").replaceAll(" ", "%20").replaceAll("™", "%E2%84%A2").replaceAll("★", "%E2%98%85");
     }
 
     public static String getClientOS() {
