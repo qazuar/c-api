@@ -3,7 +3,8 @@ package enums;
 public enum ScanFilter {
 
     STICKERS("stickers"),
-    PATTERN("pattern");
+    PATTERN("pattern"),
+    FLOAT("float");
 
     private String name;
 

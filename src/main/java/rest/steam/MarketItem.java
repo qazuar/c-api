@@ -11,6 +11,8 @@ public class MarketItem implements Serializable {
     private String listId;
     private String name;
     private String floatValue;
+    private int paintIndex;
+    private int paintSeed;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Sticker> stickers;
@@ -39,6 +41,22 @@ public class MarketItem implements Serializable {
 
     public void setFloatValue(String floatValue) {
         this.floatValue = floatValue;
+    }
+
+    public int getPaintIndex() {
+        return paintIndex;
+    }
+
+    public void setPaintIndex(int paintIndex) {
+        this.paintIndex = paintIndex;
+    }
+
+    public int getPaintSeed() {
+        return paintSeed;
+    }
+
+    public void setPaintSeed(int paintSeed) {
+        this.paintSeed = paintSeed;
     }
 
     public List<Sticker> getStickers() {

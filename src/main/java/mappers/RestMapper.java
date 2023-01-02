@@ -5,7 +5,6 @@ import rest.steam.MarketItemList;
 import steam.ItemObj;
 
 import java.util.List;
-import java.util.Map;
 
 public class RestMapper {
 
@@ -18,6 +17,8 @@ public class RestMapper {
             mItem.setListId(item.getListId());
             mItem.setName(item.getFullItemName());
             mItem.setFloatValue(item.getFloatValue());
+            mItem.setPaintIndex(item.getPaintIndex());
+            mItem.setPaintSeed(item.getPaintSeed());
             mItem.setStickers(item.getStickers().isEmpty() ? null : item.getStickers());
             mItem.setPrice(item.getPrice());
 

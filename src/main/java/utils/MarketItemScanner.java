@@ -42,6 +42,12 @@ public class MarketItemScanner {
                     filtered.add(i);
                 }
             }
+        } else if (scanFilter.equals(ScanFilter.FLOAT)) {
+            for (ItemObj i : items) {
+                if (hasRareFloat(i)) {
+                    filtered.add(i);
+                }
+            }
         }
 
         return filtered;
@@ -65,5 +71,17 @@ public class MarketItemScanner {
 
     private boolean hasRarePattern(ItemObj item) {
         return false;
+    }
+
+    /**
+     * Rework to look for actual rare floats within each wear category
+     * E.g: FN < 0.02, MW < 0.1, FT < 0.2
+     * @param item
+     * @return
+     */
+    private boolean hasRareFloat(ItemObj item) {
+        Double fv = Double.parseDouble(item.getFloatValue());
+
+        return fv < 0.04;
     }
 }

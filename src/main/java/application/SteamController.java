@@ -1,6 +1,7 @@
 package application;
 
 import facade.SteamFacade;
+import org.springframework.web.bind.annotation.RequestMethod;
 import rest.steam.MarketItemList;
 import steam.ItemObj;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class SteamController {
         return steamFacade.getItemObj(link);
     }
 
-    @RequestMapping(PATH + "scan")
+    @RequestMapping(value = PATH + "scan", method = RequestMethod.GET, produces = {"application/xml"})
     public MarketItemList scanMarketItems(
             @RequestParam(value="link") String link,
             @RequestParam(value="filter", defaultValue="default") String filter,
