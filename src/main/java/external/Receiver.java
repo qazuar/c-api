@@ -33,7 +33,7 @@ public class Receiver {
 
             for (int x = 0; x < Math.ceil(count / (double) STEAM_MARKET_LIST_LIMIT); x++) {
                 int start = (x * STEAM_MARKET_LIST_LIMIT);
-                items.addAll(getItems(marketPageLink, start, STEAM_MARKET_LIST_LIMIT));
+                items.addAll(getItems(marketPageLink, start, Math.min(STEAM_MARKET_LIST_LIMIT, count - start)));
             }
 
             return items;
