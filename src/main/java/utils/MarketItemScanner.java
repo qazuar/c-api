@@ -21,33 +21,28 @@ public class MarketItemScanner {
         this.receiver = receiver;
     }
 
-    public List<ItemObj> scan(String link, int count, String filter) {
+    public List<ItemObj> scan(String link, int count, String[] filters) {
         List<ItemObj> items = receiver.getItems(link, count);
 
+        if (ScanFilter.hasFilter(filters, ScanFilter.ALL)) {
+            return items;
+        }
+
+        // Filtered items
         List<ItemObj> filtered = new ArrayList<>();
 
-        ScanFilter scanFilter = ScanFilter.getFilter(filter);
+        for (ItemObj i : items) {
+            boolean add = true;
 
-        if (scanFilter == null) {
-            return items;
-        } else if (scanFilter.equals(ScanFilter.STICKERS)) {
-            for (ItemObj i : items) {
-                if (hasRareStickers(i)) {
-                    filtered.add(i);
-                }
+            if (ScanFilter.hasFilter(filters, ScanFilter.FLOAT)) {
+                add = hasLowFloat(i);
             }
-        } else if (scanFilter.equals(ScanFilter.PATTERN)) {
-            for (ItemObj i : items) {
-                if (hasRarePattern(i)) {
-                    filtered.add(i);
-                }
+
+            if (ScanFilter.hasFilter(filters, ScanFilter.STICKERS)) {
+                add = hasStickers(i);
             }
-        } else if (scanFilter.equals(ScanFilter.FLOAT)) {
-            for (ItemObj i : items) {
-                if (hasRareFloat(i)) {
-                    filtered.add(i);
-                }
-            }
+
+            if (add) { filtered.add(i); }
         }
 
         return filtered;
@@ -69,19 +64,21 @@ public class MarketItemScanner {
         return false;
     }
 
-    private boolean hasRarePattern(ItemObj item) {
-        return false;
+    private boolean hasStickers(ItemObj item) {
+        return !item.getStickers().isEmpty();
     }
 
-    /**
-     * Rework to look for actual rare floats within each wear category
-     * E.g: FN < 0.02, MW < 0.1, FT < 0.2
-     * @param item
-     * @return
-     */
-    private boolean hasRareFloat(ItemObj item) {
+    private boolean hasLowFloat(ItemObj item) {
         Double fv = Double.parseDouble(item.getFloatValue());
 
-        return fv < 0.04;
+        if (fv < 0.07) { // FN
+            return fv < 0.02;
+        } else if (fv < 0.15) { // MW
+            return fv < 0.1;
+        } else if (fv < 0.38) { // FT
+            return fv < 0.2;
+        } else { // WW/BS is not considered low, but still return true to avoid 0 results.
+            return true;
+        }
     }
 }

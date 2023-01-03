@@ -2,8 +2,8 @@ package enums;
 
 public enum ScanFilter {
 
+    ALL("all"),
     STICKERS("stickers"),
-    PATTERN("pattern"),
     FLOAT("float");
 
     private String name;
@@ -12,14 +12,14 @@ public enum ScanFilter {
         this.name = name;
     }
 
-    public static ScanFilter getFilter(String name) {
-        for (ScanFilter s : values()) {
-            if (s.getName().equals(name)) {
-                return s;
+    public static boolean hasFilter(String[] filters, ScanFilter filter) {
+        for (String f : filters) {
+            if (f.equalsIgnoreCase(filter.getName())) {
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 
     public String getName() {

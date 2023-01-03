@@ -14,6 +14,8 @@ import java.util.*;
 
 public class Receiver {
 
+    private final int STEAM_MARKET_LIST_LIMIT = 100;
+
     private Map<String, ItemObj> cache;
     private Connector connector;
 
@@ -23,7 +25,25 @@ public class Receiver {
     }
 
     public List<ItemObj> getItems(String marketPageLink, int count) {
-        String queryStartCount = "?query=&start=0&count=" + count;
+        // Steam market page has a limit of 100 per page
+        // Count has to be split into segments of 1-100, 101-200 etc.
+
+        if (count > STEAM_MARKET_LIST_LIMIT) {
+            List<ItemObj> items = new ArrayList<>();
+
+            for (int x = 0; x < Math.ceil(count / (double) STEAM_MARKET_LIST_LIMIT); x++) {
+                int start = (x * STEAM_MARKET_LIST_LIMIT);
+                items.addAll(getItems(marketPageLink, start, STEAM_MARKET_LIST_LIMIT));
+            }
+
+            return items;
+        }
+
+        return getItems(marketPageLink, 0, count);
+    }
+
+    private List<ItemObj> getItems(String marketPageLink, int start, int count) {
+        String queryStartCount = "?query=&start=" + start + "&count=" + count;
 
         List<ItemObj> items = new ArrayList<>();
 
@@ -35,7 +55,7 @@ public class Receiver {
         Map<String, List<String>> map = Misc.steamHtmlToMap(request.getResponseXml());
 
         int index = 0;
-        int listId = 1;
+        int listId = start + 1;
 
         for (String link : map.get("links")) {
             ItemObj item = getItem(ApiEnum.STEAM_RUN_CSGO_PREFIX.getPath() + link.replace("%assetid%", map.get("assetids").get(index)));
