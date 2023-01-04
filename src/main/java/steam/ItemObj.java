@@ -1,8 +1,5 @@
 package steam;
 
-import utils.PatternUtil;
-import utils.patterns.PatternUtilFinder;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +38,7 @@ public class ItemObj implements Serializable {
     private String qualityName;
     private String paintWear;
     private int paintSeed; // Seed for the RNG that defines how to place the skin texture
+    private String paintSeedName;
     private String killEaterValue; // If the item is StatTrak, this is the amount of kills
     private String customName; // If the item has a nametag, this is the custom name
     private List<Sticker> stickers;
@@ -141,14 +139,12 @@ public class ItemObj implements Serializable {
         this.paintSeed = Integer.parseInt(paintSeed.split("\\.")[0]);
     }
 
-    public String getPatternName() {
-        PatternUtil util = PatternUtilFinder.find(weaponType, paintIndex);
+    public String getPaintSeedName() {
+        return paintSeedName;
+    }
 
-        if (util == null) {
-            return null;
-        }
-
-        return util.validate(paintSeed);
+    public void setPaintSeedName(String paintSeedName) {
+        this.paintSeedName = paintSeedName;
     }
 
     public String getKillEaterValue() {

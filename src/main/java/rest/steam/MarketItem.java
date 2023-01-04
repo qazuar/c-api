@@ -15,6 +15,9 @@ public class MarketItem implements Serializable {
     private int paintSeed;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String paintSeedName;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Sticker> stickers;
 
     private String price;
@@ -57,6 +60,14 @@ public class MarketItem implements Serializable {
 
     public void setPaintSeed(int paintSeed) {
         this.paintSeed = paintSeed;
+    }
+
+    public String getPaintSeedName() {
+        return paintSeedName;
+    }
+
+    public void setPaintSeedName(String paintSeedName) {
+        this.paintSeedName = paintSeedName;
     }
 
     public List<Sticker> getStickers() {

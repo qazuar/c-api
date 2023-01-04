@@ -1,6 +1,7 @@
 package application;
 
 import facade.SteamFacade;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import rest.steam.MarketItemList;
 import steam.ItemObj;
@@ -20,7 +21,7 @@ public class SteamController {
         return steamFacade.getItemObj(link);
     }
 
-    @RequestMapping(value = PATH + "scan", method = RequestMethod.GET, produces = {"application/xml"})
+    @RequestMapping(value = PATH + "scan", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public MarketItemList scanMarketItems(
             @RequestParam(value="link") String link,
             @RequestParam(value="count", defaultValue="100") Integer count,
@@ -31,4 +32,10 @@ public class SteamController {
         return steamFacade.getMarketItemList(link, count, minFloat, maxFloat, seeds, stickers);
     }
 
+    @RequestMapping(value = PATH + "find", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public MarketItemList findMarketItems(
+            @RequestParam(value="item") String item,
+            @RequestParam(value="type") String type) {
+        return steamFacade.findMarketItemList(item, type);
+    }
 }

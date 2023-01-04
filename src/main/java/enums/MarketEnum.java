@@ -2,6 +2,7 @@ package enums;
 
 public enum MarketEnum {
 
+    AK47_CASE_HARDENED("market/listings/730/AK-47%20%7C%20Case%20Hardened%20%28{}%29", true),
     AK47_FIRE_SERPENT("market/listings/730/AK-47%20%7C%20Fire%20Serpent%20%28{}%29", true),
     AK47_REDLINE("market/listings/730/AK-47%20%7C%20Redline%20%28{}%29", true),
     AK47_WILD_LOTUS("market/listings/730/AK-47%20%7C%20Wild%20Lotus%20%28{}%29", false),
@@ -26,8 +27,8 @@ public enum MarketEnum {
     USP_ORION("market/listings/730/USP-S%20%7C%20Orion%20%28{}%29", true);
 
     private final String statTrakPrefix = "StatTrak%E2%84%A2%20";
-    private String marketLink;
-    private Boolean hasStatTrak;
+    private final String marketLink;
+    private final Boolean hasStatTrak;
 
     MarketEnum(String marketLink, Boolean hasStatTrak) {
         this.marketLink = marketLink;

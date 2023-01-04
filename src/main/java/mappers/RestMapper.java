@@ -19,6 +19,7 @@ public class RestMapper {
             mItem.setFloatValue(item.getFloatValue());
             mItem.setPaintIndex(item.getPaintIndex());
             mItem.setPaintSeed(item.getPaintSeed());
+            mItem.setPaintSeedName(item.getPaintSeedName());
             mItem.setStickers(item.getStickers().isEmpty() ? null : item.getStickers());
             mItem.setPrice(item.getPrice());
 

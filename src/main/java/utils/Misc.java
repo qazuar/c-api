@@ -14,20 +14,6 @@ public class Misc {
         return link.replaceAll(ApiEnum.STEAM_COMMUNITY_ADDRESS.getPath(), "").replaceAll(" ", "%20").replaceAll("™", "%E2%84%A2").replaceAll("★", "%E2%98%85");
     }
 
-    public static String getClientOS() {
-        return System.getProperty("os.name").split(" ")[0] + "/Java " + System.getProperty("java.version");
-    }
-
-    public static String stringMultiply(String value, Integer multiply) {
-        String r = "";
-
-        for (int i = 0; i < multiply; i++) {
-            r += value;
-        }
-
-        return r;
-    }
-
     public static String convertMs2TimeString(long ms) {
         double mps = 1000.0;
         double spm = 60.0;
