@@ -16,7 +16,9 @@ public class SteamFacade {
         return receiver.getItem(Misc.encodeMarketLink(link));
     }
 
-    public MarketItemList getMarketItemList(String link, String[] filters, Integer count) {
-        return RestMapper.mapItemObjList2MarketItemList(scanner.scan(Misc.encodeMarketLink(link), count, filters));
+    public MarketItemList getMarketItemList(String link, Integer count, float minFloat, float maxFloat, int[] seeds, String[] stickers) {
+        return RestMapper.mapItemObjList2MarketItemList(
+                scanner.scan(Misc.encodeMarketLink(link), count, minFloat, maxFloat, seeds, stickers)
+        );
     }
 }

@@ -23,9 +23,12 @@ public class SteamController {
     @RequestMapping(value = PATH + "scan", method = RequestMethod.GET, produces = {"application/xml"})
     public MarketItemList scanMarketItems(
             @RequestParam(value="link") String link,
-            @RequestParam(value="filters", defaultValue="all") String[] filters,
-            @RequestParam(value="count", defaultValue="100") Integer count) {
-        return steamFacade.getMarketItemList(link, filters, count);
+            @RequestParam(value="count", defaultValue="100") Integer count,
+            @RequestParam(value="minfloat", defaultValue="0.0") float minFloat,
+            @RequestParam(value="maxfloat", defaultValue="1.0") float maxFloat,
+            @RequestParam(value="seeds", defaultValue="") int[] seeds,
+            @RequestParam(value="stickers", defaultValue="") String[] stickers) {
+        return steamFacade.getMarketItemList(link, count, minFloat, maxFloat, seeds, stickers);
     }
 
 }

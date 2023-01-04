@@ -1,7 +1,5 @@
 package utils;
 
-import enums.RareStickerEnum;
-import enums.ScanFilter;
 import external.Receiver;
 import steam.ItemObj;
 import steam.Sticker;
@@ -11,74 +9,58 @@ import java.util.List;
 
 public class MarketItemScanner {
 
-    private final String HOLO = "holo";
-    private final String FOIL = "foil";
-    private final String GOLD = "gold";
-
     private Receiver receiver;
 
     public MarketItemScanner(Receiver receiver) {
         this.receiver = receiver;
     }
 
-    public List<ItemObj> scan(String link, int count, String[] filters) {
+    public List<ItemObj> scan(String link, int count, float minFloat, float maxFloat, int[] seeds, String[] stickers) {
         List<ItemObj> items = receiver.getItems(link, count);
-
-        if (ScanFilter.hasFilter(filters, ScanFilter.ALL)) {
-            return items;
-        }
 
         // Filtered items
         List<ItemObj> filtered = new ArrayList<>();
 
         for (ItemObj i : items) {
-            boolean add = true;
+            // Float check
+            float iFloat = Float.parseFloat(i.getFloatValue());
+            if (!(iFloat >= minFloat && iFloat <= maxFloat)) { continue; }
 
-            if (ScanFilter.hasFilter(filters, ScanFilter.FLOAT)) {
-                add = hasLowFloat(i);
+            // Seed check
+            if (seeds.length > 0) {
+                boolean seedMatch = false;
+
+                for (int s : seeds) {
+                    if (s == i.getPaintSeed()) {
+                        seedMatch = true;
+                    }
+                }
+
+                if (!seedMatch) { continue; }
             }
 
-            if (ScanFilter.hasFilter(filters, ScanFilter.STICKERS)) {
-                add = hasStickers(i);
+            // Sticker check
+            if (stickers.length > 0) {
+                if (i.getStickers().isEmpty()) { continue; }
+
+                boolean stickerMatch = false;
+
+                for (Sticker sticker : i.getStickers()) {
+                    for (String sf : stickers) {
+                        for (String ss : sticker.getName().split(" ")) {
+                            if (ss.toLowerCase().contains(sf.trim().toLowerCase())) {
+                                stickerMatch = true;
+                            }
+                        }
+                    }
+                }
+
+                if (!stickerMatch) { continue ; }
             }
 
-            if (add) { filtered.add(i); }
+            filtered.add(i);
         }
 
         return filtered;
-    }
-
-    private boolean hasRareStickers(ItemObj item) {
-        for (Sticker s : item.getStickers()) {
-            String name = s.getName().toLowerCase();
-
-            if (name.contains(HOLO) || name.contains(FOIL) || name.contains(GOLD)) {
-                for (RareStickerEnum r : RareStickerEnum.values()) {
-                    if (name.contains(r.getName())) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private boolean hasStickers(ItemObj item) {
-        return !item.getStickers().isEmpty();
-    }
-
-    private boolean hasLowFloat(ItemObj item) {
-        Double fv = Double.parseDouble(item.getFloatValue());
-
-        if (fv < 0.07) { // FN
-            return fv < 0.02;
-        } else if (fv < 0.15) { // MW
-            return fv < 0.1;
-        } else if (fv < 0.38) { // FT
-            return fv < 0.2;
-        } else { // WW/BS is not considered low, but still return true to avoid 0 results.
-            return true;
-        }
     }
 }
