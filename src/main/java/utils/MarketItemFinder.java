@@ -21,37 +21,40 @@ public class MarketItemFinder {
         this.receiver = receiver;
     }
 
-    public List<ItemObj> find(String item, String type) {
-        switch (type) {
-            case "bluegem": {
-                return findBlueGem(item);
+    public List<ItemObj> find(String item, String type, float minFloat, float maxFloat) {
+        List<ItemObj> items = new ArrayList<>();
+        String key = item + ":" + type;
+
+        switch (key) {
+            case "ak47:bluegem": {
+                items.addAll(findAK47BlueGem());
             }
 
-            default: {
-                return new ArrayList<>();
-            }
+            default: { }
         }
-    }
 
-    private List<ItemObj> findBlueGem(String item) {
-        switch (item) {
-            case "ak47": {
-                return findAK47BlueGem();
-            }
+        List<ItemObj> filtered = new ArrayList<>();
 
-            default: {
-                return new ArrayList<>();
-            }
+        for (ItemObj i : items) {
+            // Float check
+            float iFloat = Float.parseFloat(i.getFloatValue());
+            if (!(iFloat >= minFloat && iFloat <= maxFloat)) { continue; }
+
+            filtered.add(i);
         }
+
+        return filtered;
     }
 
     private List<ItemObj> findAK47BlueGem() {
         List<ItemObj> items = new ArrayList<>();
 
-        for (ExteriorEnum e : ExteriorEnum.values()) {
-            String link = MarketEnum.AK47_CASE_HARDENED.getMarketLink(e.getUrl(), false);
-            int count = 150;
-            items.addAll(receiver.getItems(link, count));
+        for (boolean stattrak : new boolean[]{true, false}) { // Check both stattrak and non-stattrak
+            for (ExteriorEnum e : ExteriorEnum.values()) {
+                String link = MarketEnum.AK47_CASE_HARDENED.getMarketLink(e.getUrl(), stattrak);
+                int count = 150; // Currently, highest number of aks is 142 on any page, thus 150 makes sense as a limit.
+                items.addAll(receiver.getItems(link, count));
+            }
         }
 
         List<ItemObj> filtered = new ArrayList<>();

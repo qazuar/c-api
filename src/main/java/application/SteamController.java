@@ -21,21 +21,25 @@ public class SteamController {
         return steamFacade.getItemObj(link);
     }
 
-    @RequestMapping(value = PATH + "scan", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = PATH + "scan", method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML_VALUE})
     public MarketItemList scanMarketItems(
             @RequestParam(value="link") String link,
             @RequestParam(value="count", defaultValue="100") Integer count,
             @RequestParam(value="minfloat", defaultValue="0.0") float minFloat,
             @RequestParam(value="maxfloat", defaultValue="1.0") float maxFloat,
             @RequestParam(value="seeds", defaultValue="") int[] seeds,
-            @RequestParam(value="stickers", defaultValue="") String[] stickers) {
+            @RequestParam(value="stickers", defaultValue="") String[] stickers
+    ) {
         return steamFacade.getMarketItemList(link, count, minFloat, maxFloat, seeds, stickers);
     }
 
-    @RequestMapping(value = PATH + "find", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = PATH + "find", method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML_VALUE})
     public MarketItemList findMarketItems(
             @RequestParam(value="item") String item,
-            @RequestParam(value="type") String type) {
-        return steamFacade.findMarketItemList(item, type);
+            @RequestParam(value="type") String type,
+            @RequestParam(value="minfloat", defaultValue="0.0") float minFloat,
+            @RequestParam(value="maxfloat", defaultValue="1.0") float maxFloat
+    ) {
+        return steamFacade.findMarketItemList(item, type, minFloat, maxFloat);
     }
 }
