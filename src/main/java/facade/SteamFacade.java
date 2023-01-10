@@ -25,9 +25,9 @@ public class SteamFacade {
         );
     }
 
-    public MarketItemList findMarketItemList(String item, String type, float minFloat, float maxFloat) {
+    public MarketItemList findMarketItemList(String item, String type, float minFloat, float maxFloat, String[] filter) {
         return RestMapper.mapItemObjList2MarketItemList(
-                finder.find(item, type, minFloat, maxFloat)
+                finder.find(item, type, minFloat, maxFloat, filter)
         );
     }
 }

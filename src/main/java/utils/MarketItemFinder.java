@@ -26,7 +26,7 @@ public class MarketItemFinder {
         this.receiver = receiver;
     }
 
-    public List<ItemObj> find(String item, String type, float minFloat, float maxFloat) {
+    public List<ItemObj> find(String item, String type, float minFloat, float maxFloat, String[] filter) {
         List<ItemObj> items = new ArrayList<>();
         String key = item + ":" + type;
 
@@ -50,6 +50,19 @@ public class MarketItemFinder {
             // Float check
             float iFloat = Float.parseFloat(i.getFloatValue());
             if (!(iFloat >= minFloat && iFloat <= maxFloat)) { continue; }
+
+            if (filter.length > 0) {
+                boolean pMatch = false;
+
+                for (String f : filter) {
+                    if (i.getPaintSeedName().toLowerCase().contains(f.toLowerCase())) {
+                        pMatch = true;
+                        break;
+                    }
+                }
+
+                if (!pMatch) { continue; }
+            }
 
             filtered.add(i);
         }

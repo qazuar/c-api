@@ -25,7 +25,7 @@ public class Receiver {
 
     public Receiver() {
         this.cache = new HashMap<>();
-        this.connector = new Connector(null,null);
+        this.connector = new Connector(null, null);
     }
 
     public List<ItemObj> getItems(String marketPageLink, int count) {
@@ -39,12 +39,12 @@ public class Receiver {
                 int start = (x * STEAM_MARKET_LIST_LIMIT);
                 List<ItemObj> tItems = getItems(marketPageLink, start, Math.min(STEAM_MARKET_LIST_LIMIT, count - start));
 
+                items.addAll(tItems);
+
                 if (tItems.size() < STEAM_MARKET_LIST_LIMIT) {
                     logger.debug("Stopped fetching due to count-exceed");
                     break;
                 }
-
-                items.addAll(tItems);
             }
 
             return items;
@@ -65,6 +65,8 @@ public class Receiver {
 
         Map<String, List<String>> map = Misc.steamHtmlToMap(request.getResponseXml());
 
+        logger.info(String.format("Retrieved %s items from %s", map.get("links").size(), marketPageLink));
+
         int index = 0;
         int listId = start + 1;
 
@@ -79,8 +81,6 @@ public class Receiver {
             listId++;
         }
 
-        logger.info(String.format("Retrieved %s items from %s", items.size(), marketPageLink));
-
         return items;
     }
 
@@ -94,7 +94,7 @@ public class Receiver {
 
     private ItemObj fetch(String inspectLink) {
         logger.info("Fetching item: " + inspectLink);
-        
+
         Request request = Request.newRequest();
 
         request.setServer(ApiEnum.CSGOFLOAT_API.getPath());

@@ -38,8 +38,9 @@ public class SteamController {
             @RequestParam(value="item") String item,
             @RequestParam(value="type") String type,
             @RequestParam(value="minfloat", defaultValue="0.0") float minFloat,
-            @RequestParam(value="maxfloat", defaultValue="1.0") float maxFloat
+            @RequestParam(value="maxfloat", defaultValue="1.0") float maxFloat,
+            @RequestParam(value="filter", defaultValue="") String[] filter
     ) {
-        return steamFacade.findMarketItemList(item, type, minFloat, maxFloat);
+        return steamFacade.findMarketItemList(item, type, minFloat, maxFloat, filter);
     }
 }

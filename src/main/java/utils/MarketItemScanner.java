@@ -47,10 +47,9 @@ public class MarketItemScanner {
 
                 for (Sticker sticker : i.getStickers()) {
                     for (String sf : stickers) {
-                        for (String ss : sticker.getName().split(" ")) {
-                            if (ss.toLowerCase().contains(sf.trim().toLowerCase())) {
-                                stickerMatch = true;
-                            }
+                        if (sticker.getName().toLowerCase().contains(sf.toLowerCase())) {
+                            stickerMatch = true;
+                            break;
                         }
                     }
                 }
