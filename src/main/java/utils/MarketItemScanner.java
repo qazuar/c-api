@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MarketItemScanner {
 
-    private Receiver receiver;
+    private final Receiver receiver;
 
     public MarketItemScanner(Receiver receiver) {
         this.receiver = receiver;

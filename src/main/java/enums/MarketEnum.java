@@ -14,6 +14,7 @@ public enum MarketEnum {
     AWP_WILDFIRE("market/listings/730/AWP%20%7C%20Wildfire%20%28{}%29", true),
     DEAGLE_BLAZE("market/listings/730/Desert%20Eagle%20%7C%20Blaze%20%28{}%29", false),
     DEAGLE_CODE_RED("market/listings/730/Desert%20Eagle%20%7C%20Code%20Red%20%28{}%29", true),
+    FIVESEVEN("market/listings/730/Five-SeveN%20%7C%20Case%20Hardened%20%28{}%29", true),
     M4A1_KNIGHT("market/listings/730/M4A1-S%20%7C%20Knight%20%28{}%29", false),
     M4A4_ASIIMOV("market/listings/730/M4A4%20%7C%20Asiimov%20%28{}%29", true),
     M4A4_NEO_NOIR("market/listings/730/M4A4%20%7C%20Neo-Noir%20%28{}%29", true),

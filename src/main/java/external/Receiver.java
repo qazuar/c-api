@@ -3,6 +3,8 @@ package external;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import enums.ApiEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import steam.ItemObj;
 import steam.MarketItemObj;
 import steam.MarketObj;
@@ -14,10 +16,12 @@ import java.util.*;
 
 public class Receiver {
 
+    private final Logger logger = LoggerFactory.getLogger(Receiver.class);
+
     private final int STEAM_MARKET_LIST_LIMIT = 100;
 
-    private Map<String, ItemObj> cache;
-    private Connector connector;
+    private final Map<String, ItemObj> cache;
+    private final Connector connector;
 
     public Receiver() {
         this.cache = new HashMap<>();
@@ -33,7 +37,14 @@ public class Receiver {
 
             for (int x = 0; x < Math.ceil(count / (double) STEAM_MARKET_LIST_LIMIT); x++) {
                 int start = (x * STEAM_MARKET_LIST_LIMIT);
-                items.addAll(getItems(marketPageLink, start, Math.min(STEAM_MARKET_LIST_LIMIT, count - start)));
+                List<ItemObj> tItems = getItems(marketPageLink, start, Math.min(STEAM_MARKET_LIST_LIMIT, count - start));
+
+                if (tItems.size() < STEAM_MARKET_LIST_LIMIT) {
+                    logger.debug("Stopped fetching due to count-exceed");
+                    break;
+                }
+
+                items.addAll(tItems);
             }
 
             return items;
@@ -68,6 +79,8 @@ public class Receiver {
             listId++;
         }
 
+        logger.info(String.format("Retrieved %s items from %s", items.size(), marketPageLink));
+
         return items;
     }
 
@@ -80,7 +93,8 @@ public class Receiver {
     }
 
     private ItemObj fetch(String inspectLink) {
-        Connector connector = new Connector(null, null);
+        logger.info("Fetching item: " + inspectLink);
+        
         Request request = Request.newRequest();
 
         request.setServer(ApiEnum.CSGOFLOAT_API.getPath());

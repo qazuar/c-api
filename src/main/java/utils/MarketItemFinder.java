@@ -1,11 +1,13 @@
 package utils;
 
-import enums.ApiEnum;
 import enums.ExteriorEnum;
 import enums.MarketEnum;
 import external.Receiver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import steam.ItemObj;
 import utils.seeds.AKBlueGemSeedFinder;
+import utils.seeds.FiveSevenBlueGemSeedFinder;
 import utils.seeds.SeedFinder;
 
 import java.util.ArrayList;
@@ -13,9 +15,12 @@ import java.util.List;
 
 public class MarketItemFinder {
 
-    private Receiver receiver;
+    private final Logger logger = LoggerFactory.getLogger(MarketItemFinder.class);
+
+    private final Receiver receiver;
 
     private final SeedFinder AK_BLUEGEM_FINDER = new AKBlueGemSeedFinder();
+    private final SeedFinder FIVESEVNE_BLUEGEM_FINDER = new FiveSevenBlueGemSeedFinder();
 
     public MarketItemFinder(Receiver receiver) {
         this.receiver = receiver;
@@ -27,7 +32,13 @@ public class MarketItemFinder {
 
         switch (key) {
             case "ak47:bluegem": {
-                items.addAll(findAK47BlueGem());
+                items.addAll(findAK47BlueGems());
+                break;
+            }
+
+            case "fiveseven:bluegem": {
+                items.addAll(findFiveSevenBlueGems());
+                break;
             }
 
             default: { }
@@ -46,13 +57,15 @@ public class MarketItemFinder {
         return filtered;
     }
 
-    private List<ItemObj> findAK47BlueGem() {
+    private List<ItemObj> findAK47BlueGems() {
+        logger.debug("Searching for AK-47 bluegems");
+
         List<ItemObj> items = new ArrayList<>();
 
         for (boolean stattrak : new boolean[]{true, false}) { // Check both stattrak and non-stattrak
             for (ExteriorEnum e : ExteriorEnum.values()) {
                 String link = MarketEnum.AK47_CASE_HARDENED.getMarketLink(e.getUrl(), stattrak);
-                int count = 150; // Currently, highest number of aks is 142 on any page, thus 150 makes sense as a limit.
+                int count = 150; // Currently, highest number of aks is 142 on any page
                 items.addAll(receiver.getItems(link, count));
             }
         }
@@ -62,6 +75,31 @@ public class MarketItemFinder {
         for (ItemObj i : items) {
             if (AK_BLUEGEM_FINDER.isRareSeed(i.getPaintSeed())) {
                 i.setPaintSeedName(AK_BLUEGEM_FINDER.getSeedName(i.getPaintSeed()));
+                filtered.add(i);
+            }
+        }
+
+        return filtered;
+    }
+
+    private List<ItemObj> findFiveSevenBlueGems() {
+        logger.debug("Searching for Five-Seven bluegems");
+
+        List<ItemObj> items = new ArrayList<>();
+
+        for (boolean stattrak : new boolean[]{true, false}) { // Check both stattrak and non-stattrak
+            for (ExteriorEnum e : ExteriorEnum.values()) {
+                String link = MarketEnum.FIVESEVEN.getMarketLink(e.getUrl(), stattrak);
+                int count = 200; // Currently, highest number of fivesevens is 188 on any page
+                items.addAll(receiver.getItems(link, count));
+            }
+        }
+
+        List<ItemObj> filtered = new ArrayList<>();
+
+        for (ItemObj i : items) {
+            if (FIVESEVNE_BLUEGEM_FINDER.isRareSeed(i.getPaintSeed())) {
+                i.setPaintSeedName(FIVESEVNE_BLUEGEM_FINDER.getSeedName(i.getPaintSeed()));
                 filtered.add(i);
             }
         }

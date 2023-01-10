@@ -1,5 +1,8 @@
 package external;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -7,10 +10,12 @@ import java.util.Base64;
 
 public class Connector {
 
+    private final Logger logger = LoggerFactory.getLogger(Connector.class);
+
     private final int CONNECTION_TIMEOUT = 60000;
     private final int READ_TIMEOUT = 60000;
 
-    private String username, password;
+    private final String username, password;
 
     public Connector(String username, String password) {
         this.username = username;
@@ -18,6 +23,8 @@ public class Connector {
     }
 
     public String post(Request request, String restPath) {
+        logger.debug("HTTP POST: " + restPath);
+
         try {
             long start = System.currentTimeMillis();
 
@@ -36,6 +43,8 @@ public class Connector {
     }
 
     public String put(Request request, String restPath) {
+        logger.debug("HTTP PUT: " + restPath);
+
         try {
             long start = System.currentTimeMillis();
 
@@ -54,6 +63,8 @@ public class Connector {
     }
 
     public String get(Request request, String restPath) {
+        logger.debug("HTTP GET: " + restPath);
+
         try {
             long start = System.currentTimeMillis();
 
@@ -72,6 +83,8 @@ public class Connector {
     }
 
     public String delete(Request request, String restPath) {
+        logger.debug("HTTP DELETE: " + restPath);
+
         try {
             long start = System.currentTimeMillis();
 
