@@ -11,8 +11,7 @@ public class Sticker implements Serializable {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String wear;
-
-    @JsonIgnore
+    
     private String id;
 
     @JsonIgnore
