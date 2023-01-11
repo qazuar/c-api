@@ -8,6 +8,7 @@ public class AKBlueGemSeedFinder implements SeedFinder {
             413,220,228,189,426,429,428,610,611,112,849,844,430,126,122,442,139,862,868,450,147,856,463,689,888,887,872,695,698,892,690,647,34,28,32,13,82,74,479,278,103,92,905,256
     };
     private final int[] TIER3_SEEDS = {332,337,334,948,530,746,539,349};
+    private final int[] TIER4_SEEDS = {147,464,502,579,587,716,704,761,898,95};
 
     @Override
     public boolean isRareSeed(int seed) {
@@ -24,6 +25,12 @@ public class AKBlueGemSeedFinder implements SeedFinder {
         }
 
         for (int i : TIER3_SEEDS) {
+            if (i == seed) {
+                return true;
+            }
+        }
+
+        for (int i : TIER4_SEEDS) {
             if (i == seed) {
                 return true;
             }
@@ -59,6 +66,16 @@ public class AKBlueGemSeedFinder implements SeedFinder {
         for (int i : TIER3_SEEDS) {
             if (i == seed) {
                 return "Tier 3 bluegem #" + rank;
+            }
+
+            rank ++;
+        }
+
+        rank = 1;
+
+        for (int i : TIER4_SEEDS) {
+            if (i == seed) {
+                return "Bluemag #" + rank;
             }
 
             rank ++;
